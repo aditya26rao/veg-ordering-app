@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: veg-ordering-server
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DB_PATH
+        value: /var/data/database.sqlite
+    disk:
+      name: sqlite-data
+      mountPath: /var/data
+      sizeGB: 1
