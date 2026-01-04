@@ -27,25 +27,27 @@ git push -u origin main
 ## Step 2: Deploy Backend (Render)
 
 1.  Log in to [Render.com](https://render.com/).
-2.  Click **New +** and select **Web Service**.
-3.  Connect your GitHub repository.
-4.  **Configuration**:
-    - **Root Directory**: `server`
-    - **Name**: `veg-server` (or similar)
-    - **Environment**: `Node`
-    - **Build Command**: `npm install`
-    - **Start Command**: `node server.js`
-    - **Plan**: Free
-5.  **Environment Variables** (Advanced / Environment):
-    - Key: `DB_PATH` | Value: `/var/data/database.sqlite`
-6.  **Disks** (Important for Database Persistence):
-    - Scroll to **Disks**.
-    - Click **Add Disk**.
-    - **Name**: `sqlite-data`
-    - **Mount Path**: `/var/data`
-    - **Size**: 1 GB
-7.  Click **Create Web Service**.
-8.  **Wait** for deployment. Once live, copy the **Service URL** (e.g., `https://veg-server.onrender.com`).
+2.  **Create a Database** (PostgreSQL):
+    - Click **New +** -> **PostgreSQL**.
+    - Name: `veg-db`.
+    - Plan: **Free**.
+    - Click **Create Database**.
+    - Wait for it to become available.
+
+3.  **Create Web Service**:
+    - Click **New +** -> **Web Service**.
+    - Connect your GitHub repository.
+    - **Configuration**:
+        - **Root Directory**: `server`
+        - **Environment**: `Node`
+        - **Build Command**: `npm install`
+        - **Start Command**: `node server.js`
+        - **Plan**: Free
+    - **Environment Variables**:
+        - Click **Add from other Resource**
+        - Select your `veg-db` database.
+        - It will automatically add `DATABASE_URL`.
+    - Click **Create Web Service**.
 
 ## Step 3: Deploy Frontend (Netlify)
 
